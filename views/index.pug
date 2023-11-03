@@ -2,14 +2,19 @@ extends layout
 
 block content
   h1= title
-  p Welcome to Sai Swathi Thota Webapps page #{title}
-  button(type="button", onclick ="goFaster()" class="btn btn-secondary") Press Me
-  div(id="faster") Increase the speed 
+  p Sai Swathi Thota #{title}
+  button(type="button",class="btn btn-secondary" onclick="goFaster()") Press Me 
+  div#faster Increase the Speed.
+  p Click below to view search results:
+    a(href='/Door') Search Results
   script.
+    var mph = 20;
     var change = 1;
-    var mph =20;
+
     function goFaster() {
-      mph = change+mph;
-      change = change+1;
-      document.getElementById("faster").innerHTML = `MPH ${mph} with change ${change}`
+      console.log("hi");
+      mph += change;
+      change += 1;
+      document.getElementById('faster').innerText = `MPH ${mph} with change ${change}`;
     }
+    
