@@ -3,12 +3,17 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const mongoose = require('mongoose');
+require('dotenv').config();
+const connectionString = process.env.MONGO_CON;
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
-var DoorRouter = require('./routes/door');
+var doorRouter = require('./routes/door');
 var boardRouter = require('./routes/board');
 var chooseRouter = require('./routes/choose');
+var resourceRouter = require('./routes/resource');
+
+const door = require('./models/Door');
 
 var app = express();
 
@@ -16,15 +21,57 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
+//mongo connection
+mongoose.connect(connectionString);
+var db = mongoose.connection;+
+db.on('error', console.error.bind(console, 'MongoDB connection error:'));
+db.once('open', function () {
+  console.log('Connection to DB succeeded');
+
+
+async function recreateDB(){
+
+ await door.deleteMany();
+ 
+ let instance1 = new door({ door_Name:"French door",door_color:"white",door_height:6});
+ let instance2 = new door({ door_Name:"Sliding door",door_color:"blue",door_height:5});
+ let instance3 = new door({ door_Name:"Fiberglass door",door_color:"Brown",door_height:6});
+ instance1.save().then(doc=>{
+ console.log("First object saved")}
+ ).catch(err=>{
+ console.error(err)
+ });
+ instance2.save().then(doc=>{
+  console.log("Second object saved")}
+  ).catch(err=>{
+  console.error(err)
+  });
+  instance3.save().then(doc=>{
+    console.log("Third object saved")}
+    ).catch(err=>{
+    console.error(err)
+    });
+
+}
+
+let reseed = true;
+if (reseed) {recreateDB();}
+  
+});
+
+
+
+//mongo connection
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use('/resource', resourceRouter);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/door', DoorRouter);
+app.use('/door', doorRouter);
 app.use('/board', boardRouter);
 app.use('/choose', chooseRouter);
 

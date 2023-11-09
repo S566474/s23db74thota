@@ -2,14 +2,15 @@ extends layout
 
 block content
   h1= title
-  - const door_values =[{ Door_Name:"French door",Door_color:"white",Door_height:6},{ Door_Name:"Sliding door",Door_color:"blue",Door_height:5},{ Door_Name:"Fiberglass door",Door_color:"Brown",Door_height:6}]
+  - let badminton=results
+  - const door_values =[{ door_Name:"French door",door_color:"white",door_height:6},{ door_Name:"Sliding door",door_color:"blue",door_height:5},{ door_Name:"Fiberglass door",door_color:"Brown",door_height:6}]
   .container-fluid
     .row
       each door,index in door_values
         div(class="col-sm-2" onclick=`buy(${index})`)
-          h3 #{door.Door_Name}
-          p Color: #{door.Door_color}
-          p Height: #{door.Door_height}ft
+          h3 #{door.door_Name}
+          p Color: #{door.door_color}
+          p Height: #{door.door_height}ft
   
   script.
     function buy(index) {
