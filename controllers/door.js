@@ -9,14 +9,42 @@ exports.door_list = async function (req, res) {
     res.status(500).json({ error: err.message });
   }
 };
-
-
-
-
-
-exports.door_detail = function(req, res) {
-  res.send('NOT IMPLEMENTED: door detail: ' + req.params.id);
+// for a specific Costume.
+exports.door_detail = async function(req, res) {
+ console.log("detail" + req.params.id)
+ try {
+ result = await doors.findById( req.params.id)
+ res.send(result)
+ } catch (error) {
+ res.status(500)
+ res.send(`{"error": document for id ${req.params.id} not found`);
+ }
 };
+// Handle Costume update form on PUT.
+exports.door_update_put = async function(req, res) {
+ console.log(`update on id ${req.params.id} with body 
+${JSON.stringify(req.body)}`)
+ try {
+ let toUpdate = await doors.findById( req.params.id)
+ // Do updates of properties
+ if(req.body.door_Name) 
+ toUpdate.door_Name = req.body.door_Name;
+ if(req.body.door_color) toUpdate.door_color = req.body.door_color;
+ if(req.body.door_height) toUpdate.door_height = req.body.door_height;
+ let result = await toUpdate.save();
+ console.log("Sucess " + result)
+ res.send(result)
+ } catch (err) {
+ res.status(500)
+ res.send(`{"error": ${err}: Update for id ${req.params.id} 
+failed`);
+ }
+};
+
+
+
+
+
 
 
 exports.door_create_post =async  function(req, res) {
@@ -40,7 +68,4 @@ exports.door_create_post =async  function(req, res) {
 
 exports.door_delete = function(req, res) {
   res.send('NOT IMPLEMENTED: door delete DELETE ' + req.params.id);
-};
-exports.door_update_put = function(req, res) {
-  res.send('NOT IMPLEMENTED: door update PUT ' + req.params.id);
 };
