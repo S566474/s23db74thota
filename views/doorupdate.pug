@@ -1,0 +1,43 @@
+extends layout
+
+block content
+  h1= title
+  - let Doorid = toShow._id
+  - let door_Name = toShow.door_Name
+  - let door_color = toShow.door_color
+  - let door_height = toShow.door_height
+
+  div.row(class='mb-2')
+    div.mr-1 ID is
+        div #{Doorid}
+
+  - let actionid = "/resource/door/" + Doorid
+  form(id='doorForm', action= actionid, method="PUT")
+    div.form-group
+      label.doorAttr(for='door_Name') door name
+      input#door_Name(type='text', name='door_Name', value= door_Name )
+    div.form-group
+      label.doorAttr(for='door_color') door color
+      input#door_color(type='text', name='door_color', value= door_color )
+    div.form-group
+      label.doorAttr(for='door_height') door height
+      input#door_height(type='number', name='door_height', value= door_height )
+    input(type="submit")
+
+  script.
+    document.forms['doorForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // TODO do something here to show the user that the form is being submitted
+      fetch(event.target.action, {
+        method: 'PUT',
+        body: new URLSearchParams(new FormData(event.target)), // event.target is the form
+      }).then((resp) => {
+        return resp.json(); // or resp.text() or whatever the server sends
+      }).then((body) => {
+        alert("Update succeeded");
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Update failed " + error);
+      });
+    });

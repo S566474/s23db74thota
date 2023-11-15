@@ -1,0 +1,32 @@
+extends layout
+
+block content
+  h1= title
+  form(id='doorForm', action="/resource/door", method="POST")
+    div.form-group
+      label.doorAttr(for='door_Name') door name
+      input#door_Name(type='text', name='door_Name')
+    div.form-group
+      label.doorAttr(for='door_color') door color
+      input#door_color(type='text', name='door_color')
+    div.form-group
+      label.doorAttr(for='door_height') door height
+      input#door_height(type='number', name='door_height')
+    input(type="submit")
+  script.
+    document.forms['doorForm'].addEventListener('submit', (event) => {
+      event.preventDefault();
+      // TODO do something here to show the user that the form is being submitted
+      fetch(event.target.action, {
+        method: 'POST',
+        body: new URLSearchParams(new FormData(event.target)), // event.target is the form
+      }).then((resp) => {
+        return resp.json(); // or resp.text() or whatever the server sends
+      }).then((body) => {
+        alert("Save succeeded");
+        // TODO handle body
+      }).catch((error) => {
+        // TODO handle error
+        alert("Save failed " + error);
+      });
+    });

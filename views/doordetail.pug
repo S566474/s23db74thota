@@ -1,0 +1,25 @@
+extends layout
+
+block content
+  h1= title
+  - let Doorid = toShow._id
+  - let door_Name = toShow.door_Name
+  - let door_color = toShow.door_color
+  - let door_height = toShow.door_height
+
+  div
+    div.row
+      div(class='doorAttr mr-3') Door ID is:
+      div #{Doorid}
+
+    div.row
+      div(class='doorAttr mr-3') Door Name is:
+      div #{door_Name}
+
+    div.row
+      div(class='doorAttr mr-3') Door color is:
+      div #{door_color}
+
+    div.row
+      div(class='doorAttr mr-3') Door height is:
+      div #{door_height}
