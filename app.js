@@ -48,6 +48,10 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 db.once('open', function () {
   console.log('Connection to DB succeeded');
 
+  var Account =require('./models/account');
+  passport.use(new LocalStrategy(Account.authenticate()));
+  passport.serializeUser(Account.serializeUser());
+  passport.deserializeUser(Account.deserializeUser());
 
 async function recreateDB(){
 

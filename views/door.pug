@@ -1,54 +1,17 @@
 extends layout
 
 block content
-  h1= title
-  - let items = results;
+    h1= title
+    div.container-fluid
+        div.row
+            each item, index in result
+                - let destination = `dispatch(\"/door/update?id=${item._id}\")`
+                div.col-sm-2(onclick=`buy(${index})`)
+                    | #{item["door_Name"]}, #{item["door_color"]}, #{item["door_height"]}
+                    br
+                    button.btn( class="btn-primary ml-1", onclick= destination) Update
 
-  div(class="container-fluid")
-    each item in items
-      - let destination = `dispatch("/doors/update?id=${item._id}")`
-      div(class="col-sm-2")
-        p Door: #{item.door_Name}
-        p Color: #{item.door_color}
-        p Height: #{item.door_height}ft
-        button.btn.btn-sm.btn-primary.ml-1(onclick= destination) Update
-        br
-        brextends layout
-block content
-  h1= title
-  - let items = results;
-  - let doorItems = results; 
-  - const door_values = [{ door_Name: "French door", door_color: "white", door_height: 6 },{ door_Name: "Sliding door", door_color: "blue", door_height: 5 },{ door_Name: "Fiberglass door", door_color: "Brown", door_height: 6 }]
-
-  div(class="container-fluid")
-    div(class="row")
-      if items
-        each item in items
-          div(class="row-sm-2", class="m-1")
-            | Item #{item.door_Name}(#{item.door_color}) is #{item.door_height}
-            a(href=`/update/${item.id}`) 
-              button(type="button") Update
-      else
-        p Door Items 
-
-  div(class="container-fluid")
-    .row
-      each door, index in door_values
-        div(class="col-sm-2" onclick=`buy(${index})`)
-          h3 #{door.door_Name}
-          p Color: #{door.door_color}
-          p Height: #{door.door_height}ft
-          button.btn.btn-sm.btn-primary.ml-1(onclick= destination) Update
-          br
-          
-
-  script.
-    function buy(index) {
-      alert(`You purchased : ${index}`)
-    }
-
-
-  script.
-    function dispatch(path) {
-      window.location.href = path;
-    }
+    script.
+        function dispatch(path) {
+            window.location.href=path
+        }

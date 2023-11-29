@@ -17,8 +17,8 @@ router.get('/delete', door_controller.door_delete_Page);
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('door', { title: 'Search Results - Door' });
-});
+// router.get('/', function(req, res, next) {
+//   res.render('door', { title: 'Search Results - Door' });
+// });
 
-module.exports = router;
+// module.exports = router;

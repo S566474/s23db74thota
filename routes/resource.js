@@ -9,4 +9,6 @@ router.put('/door/:id', door_controller.door_update_put);
 router.get('/door/:id', door_controller.door_detail);
 router.get('/door', door_controller.door_list);
 
+
+
 module.exports = router;
