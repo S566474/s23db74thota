@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 // Require controller modules.
 var api_controller = require('../controllers/api');
-var door_controller = require('../controllers/door');
+var door_controller = require('../controllers/Door');
 /// API ROUTE ///
 // GET resources base.
 router.get('/', api_controller.api);

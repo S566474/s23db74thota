@@ -21,4 +21,4 @@ router.get('/delete', door_controller.door_delete_Page);
 //   res.render('door', { title: 'Search Results - Door' });
 // });
 
-// module.exports = router;
+ module.exports = router;
