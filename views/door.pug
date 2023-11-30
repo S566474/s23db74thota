@@ -1,24 +1,42 @@
-extends layout 
+extends layout
 
-block content 
-    h1= title
-    div.container-fluid
-        - let dest1 = `dispatch(\"/door/create")`
-        button.btn( class="btn-success ml-1", onclick = dest1) Create
-        div.row
-            each item, index in result
-                -let dest2 = `dispatch(\"/door/delete?id=${item._id}\")`
-                - let dest3 = `dispatch(\"/door/detail?id=${item._id}\")`
-                - let destination = `dispatch(\"/door/update?id=${item._id}\")`
-                div.col-sm-2(onclick=`buy(${index})`) #{item["door_Name"]}, #{item["door_color"]}, #{item["door_height"]}
-                    br
-                    button.btn( class="btn-primary ml-1", onclick= destination) Update
-                    br
-                    button.btn( class="btn-warning ml-1", onclick= dest2) Delete
-                    br
-                    button.btn( class="btn-secondary ml-1", onclick= dest3) Details
+block content
+  h1= title
+  - let items = results;
+  - let doorItems = results; 
+    button(type="button") Create
+  - const door_values = [{ door_Name: "French door", door_color: "white", door_height: 6 },{ door_Name: "Sliding door", door_color: "blue", door_height: 5 },{ door_Name: "Fiberglass door", door_color: "Brown", door_height: 6 }]
 
-    script. 
-        function dispatch(path) {
-            window.location.href=path
-        }
+  div(class="container-fluid")
+    div(class="row")
+      if items
+        each item in items
+          div(class="row-sm-2 m-1")
+            | Item #{item.door_Name}(#{item.door_color}) is #{item.door_height}
+            a(href=`/update/${item.id}`) 
+              button(type="button") Update
+              button(type="button") Delete 
+              button(type="button") Details
+      else
+        p Door Items 
+
+  div(class="container-fluid")
+    .row
+      each door, index in door_values
+        div(class="col-sm-2" onclick=`buy(${index})`)
+          h3 #{door.door_Name}
+          p Color: #{door.door_color}
+          p Height: #{door.door_height}ft
+          br
+          button.btn.btn-primary.ml-1(onclick= `dispatch("/doors/update?id=${door._id}")`) Update
+          br
+          button.btn.btn-warning.ml-1(onclick= `deleteDoor("/doors/delete?id=${door._id}")`) Delete
+          br
+          button.btn.btn-secondary.ml-1(onclick= `showDetails("/doors/details?id=${door._id}")`) Details
+
+  script.
+    function buy(index) {
+      alert(`You purchased: ${index}`);
+    }
+
+    

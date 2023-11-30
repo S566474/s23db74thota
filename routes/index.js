@@ -4,13 +4,13 @@ var router = express.Router();
 var Account = require('../models/account');
 router.get('/', function (req, res) {
   res.render('index', {
-    title: 'Badminton App',
+    title: 'Door App',
     user: req.user
   });
 });
 router.get('/register', function (req, res) {
   res.render('register', {
-    title: 'Badminton App Registration'
+    title: 'Door App Registration'
   });
 });
 router.post('/register', async function(req, res) {
@@ -34,7 +34,7 @@ router.post('/register', async function(req, res) {
   });
 router.get('/login', function (req, res) {
   res.render('login', {
-    title: 'Badminton App Login',
+    title: 'Door App Login',
     user: req.user
   });
 });
